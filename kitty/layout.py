@@ -18,6 +18,7 @@ all_borders = True, True, True, True
 no_borders = False, False, False, False
 draw_minimal_borders = False
 draw_active_borders = True
+draw_outer_borders = True
 
 
 def idx_for_id(win_id, windows):
@@ -27,9 +28,10 @@ def idx_for_id(win_id, windows):
 
 
 def set_draw_borders_options(opts):
-    global draw_minimal_borders, draw_active_borders
+    global draw_minimal_borders, draw_active_borders, draw_outer_borders
     draw_minimal_borders = opts.draw_minimal_borders and opts.window_margin_width == 0
     draw_active_borders = opts.active_border_color is not None
+    draw_outer_borders = opts.draw_outer_borders
 
 
 def layout_dimension(start_at, length, cell_length, decoration_pairs, left_align=False, bias=None):
@@ -704,7 +706,11 @@ class Grid(Layout):  # {{{
         for w in windows:
             wid = w.id
             if needs_borders_map[wid]:
-                yield all_borders
+                if draw_outer_borders:
+                    yield all_borders
+                else:
+                    neighbors = self.neighbors_for_window(w, windows)
+                    yield [neighbors[direction] != [] for direction in ["left", "top", "right", "bottom"]]
                 continue
             row, col = pos_map[wid]
             if col + 1 < ncols:
@@ -823,7 +829,11 @@ class Vertical(Layout):  # {{{
         last_i = len(windows) - 1
         for i, w in enumerate(windows):
             if needs_borders_map[w.id]:
-                yield all_borders
+                if draw_outer_borders:
+                    neighbors = self.neighbors_for_window(w, windows)
+                    yield [neighbors[direction] != [] for direction in ["left", "top", "right", "bottom"]]
+                else:
+                    yield all_borders
                 continue
             if i == last_i:
                 yield no_borders

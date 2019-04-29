@@ -53,6 +53,7 @@ class Borders:
         self.border_width = border_width
         self.padding_width = padding_width
         self.draw_active_borders = opts.active_border_color is not None
+        self.draw_outer_border = opts.draw_outer_borders
 
     def __call__(
         self,
