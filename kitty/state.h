@@ -40,6 +40,7 @@ typedef struct {
     bool close_on_child_death;
     bool window_alert_on_bell;
     bool debug_keyboard;
+    double resize_debounce_time;
 } Options;
 
 typedef struct {
@@ -112,7 +113,7 @@ typedef struct {
     bool in_progress;
     bool from_os_notification;
     bool os_says_resize_complete;
-    unsigned int width, height;
+    unsigned int width, height, num_of_resize_events;
 } LiveResizeInfo;
 
 
@@ -177,8 +178,6 @@ extern GlobalState global_state;
     if (cret_ == NULL) { PyErr_Print(); } \
     else Py_DECREF(cret_); \
 }
-
-#define RESIZE_DEBOUNCE_TIME 0.2
 
 void gl_init();
 void remove_vao(ssize_t vao_idx);

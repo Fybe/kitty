@@ -8,7 +8,7 @@ To update |kitty|, :doc:`follow the instructions <binary>`.
 ---------------------
 
 - macOS: The default behavior of the Option key has changed. It now generates
-  unicode characters rather than acting as the Alt modifier. See
+  unicode characters rather than acting as the :kbd:`Alt` modifier. See
   :opt:`macos_option_as_alt`.
 
 - Support for an arbitrary number of internal clipboard buffers to copy/paste
@@ -36,6 +36,11 @@ To update |kitty|, :doc:`follow the instructions <binary>`.
 
 - Make live resizing of OS windows smoother and show the size in cells
   while the resize is in progress.
+
+- macOS: Improve handling of IME extended input. Compose characters
+  are now highlighted and the IME panel moves along with the text
+  (:pull:`1586`). Also fixes handling of delete key in Chinese IME
+  (:iss:`1461`)
 
 - When a window is closed, switch focus to the previously active window (if
   any) instead of picking the previous window in the layout (:iss:`1450`)
@@ -117,6 +122,12 @@ To update |kitty|, :doc:`follow the instructions <binary>`.
 - When encountering errors in :file:`kitty.conf` report them to the user
   instead of failing to start.
 
+- Allow the user to control the resize debounce time via
+  :opt:`resize_debounce_time`.
+
+- Remote control: Make the :ref:`at_set-font-size` command more capable.
+  It can now increment font size and reset it. It also only acts on the
+  active top-level window, by default (:iss:`1581`)
 
 0.13.3 [2019-01-19]
 ------------------------------
